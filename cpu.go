@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"html/template"
 	"io/ioutil"
 	"strconv"
 	"strings"
@@ -21,8 +20,6 @@ type cpustat struct {
 	guest_nice uint64
 	total      uint64
 }
-
-var tpl = template.Must(template.ParseFiles("templates/index.gotpl"))
 
 func (stat *cpustat) String() string {
 	s := fmt.Sprintf("%10s %10v\n", "user:", stat.user)

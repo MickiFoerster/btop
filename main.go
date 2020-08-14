@@ -56,7 +56,7 @@ func main() {
 		for {
 			select {
 			case cpuUsage := <-ch:
-				fmt.Printf("%f%%\r", cpuUsage)
+				fmt.Printf("%f%%\n", cpuUsage)
 			}
 		}
 	}()

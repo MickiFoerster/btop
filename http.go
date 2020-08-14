@@ -2,12 +2,15 @@ package main
 
 import (
 	"fmt"
+	"html/template"
 	"log"
 	"net/http"
 	"time"
 
 	"golang.org/x/net/websocket"
 )
+
+var tpl = template.Must(template.ParseFiles("templates/index.gotpl"))
 
 func statServer(ws *websocket.Conn) {
 	fmt.Println("handle /ws")
@@ -36,7 +39,8 @@ func statServer(ws *websocket.Conn) {
 
 func handleMainRoute(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("handle /")
-	err := tpl.ExecuteTemplate(w, "tpl.gohtml", nil)
+
+	err := tpl.ExecuteTemplate(w, "index.gotpl", nil)
 	if err != nil {
 		log.Fatal(err)
 	}
