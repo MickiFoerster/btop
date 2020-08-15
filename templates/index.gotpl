@@ -29,8 +29,15 @@ window.onload = function () {
     };
 
     conn.onmessage = function(message) {
-        var cpu = document.getElementById('cpu')
-        cpu.innerHTML = message.data
+        var data = JSON.parse(message.data)
+        var overall = document.getElementById('overall');
+        overall.innerHTML = data.overall;
+
+        var cores = document.getElementById('cores');
+        cores.innerHTML = "";
+        for (i=0; i< data.cores.length; i++) {
+            cores.innerHTML += data.cores[i] + " ";
+        }
     };
 
     conn.onclose = function(event) {
@@ -95,7 +102,12 @@ body {
     <h1>btop (top command for the browser)</h1>
 {{.}}
 
-    <div id="cpu"></div>
+    <div id="cpu">
+        <ul>
+            <li>Overall: <span id="overall"></span></li>
+            <li>Cores: <span id="cores"></span></li>
+        </ul>
+    </div>
     <div id="log"></div>
   </body>
 </html>

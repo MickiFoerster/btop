@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"html/template"
 	"log"
@@ -11,6 +12,11 @@ import (
 )
 
 var tpl = template.Must(template.ParseFiles("templates/index.gotpl"))
+
+type CPUworkload struct {
+	Overall float64   `json:"overall"`
+	Cores   []float64 `json:"cores"`
+}
 
 func loop(ch chan<- float64) {
 	stat1, err := getCPUSample()
@@ -57,7 +63,16 @@ func statServer(ws *websocket.Conn) {
 	for {
 		select {
 		case cpuUsage := <-ch:
-			ws.Write([]byte(fmt.Sprintf("%0.2f%%", cpuUsage)))
+			wl := CPUworkload{
+				Overall: cpuUsage,
+				Cores:   []float64{cpuUsage},
+			}
+			bytes, err := json.Marshal(wl)
+			if err != nil {
+				log.Printf("error: could not encode JSON: %v\n", err)
+				continue
+			}
+			ws.Write(bytes)
 		}
 	}
 

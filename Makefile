@@ -3,7 +3,6 @@ GO_FILES=main.go \
 		 http.go
 TEMPLATES=$(shell ls -1 templates/*.gotpl)
 
-gotopws: $(GO_FILES) Makefile
+btop: $(GO_FILES) Makefile $(TEMPLATES)
 	go build -o $@ $(GO_FILES)
 
-http.go: $(TEMPLATES)
