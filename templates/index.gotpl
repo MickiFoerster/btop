@@ -29,7 +29,6 @@ window.onload = function () {
     };
 
     conn.onmessage = function(message) {
-        console.log('onmessage: server: ' + message.data);
         var cpu = document.getElementById('cpu')
         cpu.innerHTML = message.data
     };
